@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum BookDiscount {
 
+    ONE_BOOK(1, 0),
     TWO_BOOKS(2, 5),
     THREE_BOOKS(3, 10),
     FOUR_BOOKS(4, 20),
@@ -16,6 +17,13 @@ public enum BookDiscount {
     BookDiscount(int numberOfBooks, int discountInPercent) {
         this.numberOfBooks = numberOfBooks;
         this.discountInPercent = discountInPercent;
+    }
+
+    public static int getDiscountByNumberOfBooks(int numberOfBooks) {
+        for (BookDiscount discount : BookDiscount.values()) {
+            if (discount.numberOfBooks == numberOfBooks) return discount.discountInPercent;
+        }
+        return 0;
     }
     
 }

@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 public final class BookBasketResponse {
 
-    private int total;
+    private double total;
     
 }

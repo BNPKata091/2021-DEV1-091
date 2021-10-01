@@ -25,7 +25,7 @@ public enum SoftwareBook {
         this.year = year;
     }
 
-    public SoftwareBook getBookById(int id) throws UnknownBookException {
+    public static SoftwareBook getBookById(int id) throws UnknownBookException {
         for (SoftwareBook book : SoftwareBook.values()) {
             if (book.id == id) return book;
         }
