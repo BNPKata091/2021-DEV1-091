@@ -190,6 +190,8 @@ final class BookControllerTest {
 	}
 
 	private BookBasketRequest createBasketWithAMixOfBooks() {
+		// beware that if you change the content of this basket, 
+		// you'll need to adapt calculateCostForTheMixOfBooks() accordingly
 		return createBookBasketRequest(new int[]{1, 0, 2, 0, 3});
 	}
 
