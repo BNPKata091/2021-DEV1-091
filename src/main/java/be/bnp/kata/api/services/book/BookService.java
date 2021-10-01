@@ -1,5 +1,7 @@
 package be.bnp.kata.api.services.book;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
 import be.bnp.kata.api.exceptions.UnknownBookException;
@@ -9,6 +11,7 @@ import be.bnp.kata.api.model.Constants;
 import be.bnp.kata.api.model.SoftwareBook;
 import be.bnp.kata.api.resources.book.request.BookBasketRequest;
 
+@Slf4j
 @Service
 public final class BookService {
 
@@ -16,11 +19,11 @@ public final class BookService {
         double totalCost = 0;
 
         if (basket.getBooks() != null) {
-            System.out.println("basket not empty");
 
             int[] numberOfEachBook = getNumberOfEachBook(basket);
             
             boolean emptyBasket = false;
+            int subsetNumber = 0;
             
             while (!emptyBasket) {
                 
@@ -29,7 +32,10 @@ public final class BookService {
                 
                 // calculate the cost of this set and add it to the total
                 if (numberOfDifferentBooks > 0) {
-                    totalCost += getCostofSet(numberOfDifferentBooks);
+                    ++subsetNumber;
+                    log.info("Number of books in subset {}: {}", subsetNumber, numberOfDifferentBooks);
+                    totalCost += getCostofSubset(numberOfDifferentBooks);
+                    log.info("Total cost so far: {}", totalCost);
                 } else { // if no book was found, the basket is empty
                     emptyBasket = true;
                 }
@@ -37,6 +43,7 @@ public final class BookService {
             }
         }
 
+        log.info("Total cost of basket: {}", totalCost);
         return totalCost;
     }
 
@@ -46,6 +53,7 @@ public final class BookService {
         for (BookOrder bookOrder : basket.getBooks()) {
             SoftwareBook book = SoftwareBook.getBookById(bookOrder.getBookId());
             numberOfEachBook[book.ordinal()] = bookOrder.getQuantity();
+            log.info("Number of book ID {} in the basket: {}", bookOrder.getBookId(), bookOrder.getQuantity());
         }
         
         return numberOfEachBook;
@@ -64,12 +72,14 @@ public final class BookService {
         return numberOfDifferentBooks;
     }
 
-    private double getCostofSet(int numberOfDifferentBooks) {
+    private double getCostofSubset(int numberOfDifferentBooks) {
         double costBeforeDiscount = Constants.BOOK_PRICE * numberOfDifferentBooks;
 
         int discountInPercent = BookDiscount.getDiscountByNumberOfBooks(numberOfDifferentBooks);
 
         double costWithDiscount = costBeforeDiscount - (costBeforeDiscount / 100 * discountInPercent);
+
+        log.info("Cost of this subset of books: {}", Double.toString(costWithDiscount));
 
         return costWithDiscount;
     }

@@ -10,7 +10,6 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,7 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import be.bnp.kata.api.exceptions.UnknownBookException;
 import be.bnp.kata.api.model.BookDiscount;
 import be.bnp.kata.api.model.BookOrder;
 import be.bnp.kata.api.model.Constants;
@@ -156,18 +154,18 @@ final class BookControllerTest {
 				.andExpect(content().json(expectedJsonResponse));
 	}
 
-	//@Test
+	@Test
 	public void calculateBasketCost_for_an_unknown_book_throws_an_exception() throws Exception {
 
 		BookBasketRequest basket = createBasketWithUnknownBook();
 
 		String json = basketToJsonRequest(basket);
 
-		Assertions.assertThrows(UnknownBookException.class, 
-			() -> mvc.perform(post("/books/cost")
-					.accept(MediaType.APPLICATION_JSON)
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(json)));
+		mvc.perform(post("/books/cost")
+			.accept(MediaType.APPLICATION_JSON)
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(json))
+				.andExpect(status().isBadRequest());
 	}
 
 	private BookBasketRequest createBasketWithOneBook() {

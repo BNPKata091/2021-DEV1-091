@@ -23,7 +23,9 @@ Once the application runs, you can test it using curl or postman or the tool of 
 ```
 http://localhost:8080/books/cost
 ```
-An example of a valid JSON body request is available in exampleRequest.json, at the root of the project.
+An example of a valid JSON body request is available in `exampleRequests/validRequest.json`, at the root of the project.
+
+There is also an example of a wrong request in `exampleRequests/wrongRequest.json`.
 
 ## Packaging the application
 

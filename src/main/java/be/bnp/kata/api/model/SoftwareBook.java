@@ -29,7 +29,7 @@ public enum SoftwareBook {
         for (SoftwareBook book : SoftwareBook.values()) {
             if (book.id == id) return book;
         }
-        throw new UnknownBookException();
+        throw new UnknownBookException(id);
     }
 
 }
