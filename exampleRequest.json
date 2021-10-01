@@ -1,0 +1,16 @@
+{
+    "books": [
+        {
+            "bookId": 0,
+            "quantity": 1
+        },
+        {
+            "bookId": 1,
+            "quantity": 2
+        },
+        {
+            "bookId": 3,
+            "quantity": 1
+        }
+    ]
+}
