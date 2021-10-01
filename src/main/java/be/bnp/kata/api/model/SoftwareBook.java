@@ -2,14 +2,16 @@ package be.bnp.kata.api.model;
 
 import lombok.Getter;
 
+import be.bnp.kata.api.exceptions.UnknownBookException;
+
 @Getter
 public enum SoftwareBook {
 
-    CLEAN_CODE(0, "Clean Code", "Robert Martin", 2008),
-    THE_CLEAN_CODER(1, "The Clean Coder", "Robert Martin", 2011),
-    CLEAN_ARCHITECTURE(2, "Clean Architecture", "Robert Martin", 2017),
-    TEST_DRIVEN_DEVELOPMENT(3, "Test-Driven Development By Example", "Kent Beck", 2003),
-    WORKING_WITH_LEGACY_CODE(4, "Working Effectively With Legacy Code", "Michael C. Feathers", 2004);
+    CLEAN_CODE(23, "Clean Code", "Robert Martin", 2008),
+    THE_CLEAN_CODER(425, "The Clean Coder", "Robert Martin", 2011),
+    CLEAN_ARCHITECTURE(284, "Clean Architecture", "Robert Martin", 2017),
+    TEST_DRIVEN_DEVELOPMENT(393, "Test-Driven Development By Example", "Kent Beck", 2003),
+    WORKING_WITH_LEGACY_CODE(447, "Working Effectively With Legacy Code", "Michael C. Feathers", 2004);
     
     private int id;
     private String title;
@@ -21,6 +23,13 @@ public enum SoftwareBook {
         this.title = title;
         this.author = author;
         this.year = year;
+    }
+
+    public SoftwareBook getBookById(int id) throws UnknownBookException {
+        for (SoftwareBook book : SoftwareBook.values()) {
+            if (book.id == id) return book;
+        }
+        throw new UnknownBookException();
     }
 
 }

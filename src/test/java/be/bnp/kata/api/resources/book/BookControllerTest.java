@@ -21,6 +21,7 @@ import be.bnp.kata.api.exceptions.UnknownBookException;
 import be.bnp.kata.api.model.BookDiscount;
 import be.bnp.kata.api.model.BookOrder;
 import be.bnp.kata.api.model.Constants;
+import be.bnp.kata.api.model.SoftwareBook;
 import be.bnp.kata.api.resources.book.request.BookBasketRequest;
 import be.bnp.kata.api.resources.book.response.BookBasketResponse;
 
@@ -196,14 +197,18 @@ final class BookControllerTest {
 	}
 
 	private BookBasketRequest createBasketWithUnknownBook() {
-		return createBookBasketRequest(new int[]{0, 0, 0, 0, 0, 1});
+		List<BookOrder> books = new ArrayList<>();
+		BookOrder bookOrder = new BookOrder(-1, 1);
+		books.add(bookOrder);
+		return new BookBasketRequest(books);
 	}
 	
 	private BookBasketRequest createBookBasketRequest(int... numberOfEachBook) {
 		List<BookOrder> books = new ArrayList<>();
+		SoftwareBook[] softwareBooks = SoftwareBook.values();
 
 		for (int i = 0; i < numberOfEachBook.length; i++) {
-			BookOrder bookOrder = new BookOrder(i, numberOfEachBook[i]);
+			BookOrder bookOrder = new BookOrder(softwareBooks[i].getId(), numberOfEachBook[i]);
 			books.add(bookOrder);
 		}
 
